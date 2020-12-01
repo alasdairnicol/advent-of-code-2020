@@ -1,6 +1,6 @@
-Advent of Code 2019
+Advent of Code 2020
 ===================
 
-Solutions for Advent of Code 2019, written in Python.
+Solutions for Advent of Code 2020, written in Python.
 
-https://adventofcode.com/2019
+https://adventofcode.com/2020
