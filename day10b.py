@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import functools
 import itertools
 import math
 from collections import Counter
@@ -84,7 +85,31 @@ length_to_combinations = {
 }
 
 
+@functools.cache
+def num_routes(numbers, adaptor):
+    """
+    The number of arrangement to x is the sum of the number of
+    routes to x-1, x-2 and x-3.
+    """
+    if adaptor == 0:
+        return 1
+    if adaptor not in numbers:
+        return 0
+    else:
+        return (
+            num_routes(numbers, adaptor - 1)
+            + num_routes(numbers, adaptor - 2)
+            + num_routes(numbers, adaptor - 3)
+        )
+
+
 def main():
+    numbers = sorted(read_input())
+    initial_approach(numbers)
+    second_approach(numbers)
+
+
+def initial_approach(numbers):
     """
     Split the sorted list into subsections which are 3 volts apart
     from each other.
@@ -92,13 +117,24 @@ def main():
     For each subset, the number of arrangements depends on its length.
     The answer is the product of those numbers.
 
-    My solution depends on the gaps being 1 or 3 (i.e. not 2), and
+    This approach solution depends on the gaps being 1 or 3 (i.e. not 2), and
     having a longest run of 5 consecutive numbers.
     """
-    numbers = read_input()
+    numbers = sorted(read_input())
     num_arrangements = math.prod(
-        length_to_combinations[len(subsection)] for subsection in split(sorted(numbers))
+        length_to_combinations[len(subsection)] for subsection in split(numbers)
     )
+    print(num_arrangements)
+
+
+def second_approach(numbers):
+    """
+    Solve recursively
+    """
+    # Turn into tuple so it's hashable by functools.cache,
+    # and add the device to the end of the list
+    numbers = tuple(numbers) + (numbers[-1] + 3,)
+    num_arrangements = num_routes(tuple(numbers), numbers[-1])
     print(num_arrangements)
 
 
