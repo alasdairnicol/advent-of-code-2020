@@ -5,7 +5,7 @@ TEST_INPUT = "389125467"
 
 ACTUAL_INPUT = "219347865"
 
-NUM_CUPS = 9
+NUM_CUPS = 1_000_000
 
 
 def do_turn(cups, position):
@@ -35,9 +35,9 @@ def cups_to_string(cups):
 
 
 def main():
-    num_turns = 100
+    num_turns = 10_000_000
 
-    starting_cups = read_input()
+    starting_cups = read_input() + list(range(10, NUM_CUPS + 1))
 
     position = starting_cups[0]
     a, b = itertools.tee(starting_cups)
@@ -48,7 +48,8 @@ def main():
     for x in range(num_turns):
         position = do_turn(cups, position)
 
-    print(cups_to_string(cups))
+    product = cups[1] * cups[cups[1]]
+    print(product)
 
 
 def read_test_input():
