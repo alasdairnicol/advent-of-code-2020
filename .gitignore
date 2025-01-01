@@ -1,3 +1,6 @@
 v
 *~
 __pycache__
+
+# AOC input files
+day*.txt
